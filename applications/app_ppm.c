@@ -69,6 +69,10 @@ void app_ppm_configure(ppm_config *conf) {
 }
 
 void app_ppm_start(void) {
+#ifdef HW_USE_HALF_DUPLEX_PPM
+	return;
+#endif
+
 	stop_now = false;
 	chThdCreateStatic(ppm_thread_wa, sizeof(ppm_thread_wa), NORMALPRIO, ppm_thread, NULL);
 }
