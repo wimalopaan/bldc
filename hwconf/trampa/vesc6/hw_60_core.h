@@ -245,13 +245,25 @@
 #define HW_ADC_EXT2_GPIO		GPIOA
 #define HW_ADC_EXT2_PIN			6
 
+#define HW_USE_HALF_DUPLEX_PPM
+
 // UART Peripheral
+#ifndef HW_USE_HALF_DUPLEX_PPM
 #define HW_UART_DEV				SD3
 #define HW_UART_GPIO_AF			GPIO_AF_USART3
 #define HW_UART_TX_PORT			GPIOB
 #define HW_UART_TX_PIN			10
 #define HW_UART_RX_PORT			GPIOB
 #define HW_UART_RX_PIN			11
+#else
+// half-duplex
+#define HW_UART_DEV				SD1
+#define HW_UART_GPIO_AF			GPIO_AF_USART1
+#define HW_UART_TX_PORT			GPIOB
+#define HW_UART_TX_PIN			6
+#define HW_UART_RX_PORT			GPIOB
+#define HW_UART_RX_PIN			6
+#endif
 
 #if defined(HW60_IS_MK3) || defined(HW60_IS_MK4) || defined(HW60_IS_MK5) || defined(HW60_IS_MK6)
 // Permanent UART Peripheral (for NRF51)
@@ -271,9 +283,15 @@
 #define HW_ICU_TIM_CLK_EN()		RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE)
 #define HW_ICU_DEV				ICUD4
 #define HW_ICU_CHANNEL			ICU_CHANNEL_1
+#ifndef HW_USE_HALF_DUPLEX_PPM
 #define HW_ICU_GPIO_AF			GPIO_AF_TIM4
 #define HW_ICU_GPIO				GPIOB
 #define HW_ICU_PIN				6
+#else
+#define HW_ICU_GPIO_AF			GPIO_AF_TIM4 // unused
+#define HW_ICU_GPIO				GPIOB
+#define HW_ICU_PIN				10
+#endif
 
 // I2C Peripheral
 #define HW_I2C_DEV				I2CD2
